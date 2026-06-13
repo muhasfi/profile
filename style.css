@@ -1,0 +1,562 @@
+/* ============================================================
+   style.css – Digital vCard | PT Koki Sehat Sejahtera
+   ============================================================ */
+
+/* ── CSS VARIABLES ─────────────────────────────────────────── */
+:root {
+  --primary:       #198754;
+  --primary-light: #edf7ee;
+  --border:        #e2e8f0;
+  --bg-page:       #f7f4ef;
+  --bg-card:       #ffffff;
+  --text-main:     #1e293b;
+  --text-muted:    #64748b;
+  --transition:    all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── RESET ─────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── BASE ──────────────────────────────────────────────────── */
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg-page);
+  color: var(--text-main);
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 16px;
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ── BACKGROUND BLOBS ──────────────────────────────────────── */
+.bg-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  z-index: -1;
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.bg-blob-1 {
+  width: 280px;
+  height: 280px;
+  background: #4CAF50;
+  top: -50px;
+  right: -50px;
+}
+
+.bg-blob-2 {
+  width: 250px;
+  height: 250px;
+  background: #f8a31b;
+  bottom: -50px;
+  left: -50px;
+  opacity: 0.15;
+}
+
+/* ── CARD ──────────────────────────────────────────────────── */
+.card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--bg-card);
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  box-shadow:
+    0 10px 25px -5px rgba(76, 175, 80, 0.08),
+    0  8px 10px -6px rgba(76, 175, 80, 0.05);
+  transition: var(--transition);
+  animation: cardEntry 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes cardEntry {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── CARD HEADER ───────────────────────────────────────────── */
+.card-header {
+  position: relative;
+  height: 260px;
+  overflow: hidden;
+  border-bottom: 5px solid #F8A31B;
+  border-bottom-left-radius: 50% 12%;
+  border-bottom-right-radius: 50% 12%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  background: var(--primary-light);
+}
+
+.header-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+
+.avatar-fallback {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: #4CAF50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1;
+}
+
+/* ── PROFILE INFO ──────────────────────────────────────────── */
+.profile-info {
+  margin-top: 24px;
+  text-align: center;
+  padding: 0 24px;
+}
+
+.company {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #1d3b86;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.company::before {
+  content: '';
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #1d3b86;
+}
+
+.name {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1.25;
+  margin-bottom: 4px;
+}
+
+.position {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.bio-text {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-style: italic;
+  line-height: 1.5;
+  max-width: 280px;
+  margin: 0 auto;
+}
+
+/* ── QUICK ACTION BUTTONS ──────────────────────────────────── */
+.quick-actions-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  padding: 20px 24px 12px;
+}
+
+.qa-box-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #4CAF50;
+  border-radius: 12px;
+  padding: 14px 6px;
+  color: #ffffff;
+  text-decoration: none;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  box-shadow: 0 4px 10px rgba(76, 175, 80, 0.15);
+  transition: var(--transition);
+}
+
+.qa-box-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(76, 175, 80, 0.25);
+}
+
+.qa-box-btn:active {
+  transform: translateY(0);
+}
+
+.qa-box-btn svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+}
+
+/* ── CONTACT CARDS ─────────────────────────────────────────── */
+.contacts-cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 8px 24px 16px;
+}
+
+.ci-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 12px 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  transition: var(--transition);
+}
+
+.ci-card:hover {
+  border-color: rgba(76, 175, 80, 0.2);
+  transform: translateX(4px);
+}
+
+.ci-ico {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: var(--primary-light);
+  border: 1px solid rgba(76, 175, 80, 0.1);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ci-ico svg {
+  width: 15px;
+  height: 15px;
+  stroke: var(--primary);
+  fill: none;
+  stroke-width: 2;
+}
+
+.ci-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.ci-lbl {
+  font-size: 8.5px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+}
+
+.ci-val {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.ci-val a {
+  color: inherit;
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.ci-val a:hover {
+  color: var(--primary);
+}
+
+/* ── MAP ACTION BUTTON ─────────────────────────────────────── */
+.ci-action {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #f1f5f9;
+  border: 1px solid var(--border);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.ci-action:hover {
+  background: var(--primary);
+  color: #ffffff;
+  border-color: var(--primary);
+  transform: translateY(-2px);
+}
+
+.ci-action svg {
+  width: 13px;
+  height: 13px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+}
+
+/* ── SAVE BUTTON ───────────────────────────────────────────── */
+.save-action-container {
+  display: flex;
+  justify-content: center;
+  padding: 0 24px 20px;
+}
+
+.btn-save-float {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #4CAF50;
+  color: #ffffff;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13.5px;
+  font-weight: 700;
+  padding: 13px;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
+  transition: var(--transition);
+}
+
+.btn-save-float:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(76, 175, 80, 0.3);
+}
+
+.btn-save-float:active {
+  transform: translateY(0);
+}
+
+.btn-save-float svg {
+  width: 15px;
+  height: 15px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2.2;
+}
+
+/* ── QR CODE DRAWER ────────────────────────────────────────── */
+.qr-section {
+  border-top: 1px solid var(--border);
+  background: #f8fafc;
+}
+
+.qr-toggle-btn {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 14px 24px;
+  font-family: inherit;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: var(--transition);
+}
+
+.qr-toggle-btn:hover {
+  color: var(--text-main);
+  background: #f1f5f9;
+}
+
+.qr-toggle-btn svg {
+  width: 13px;
+  height: 13px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  transition: transform 0.25s ease;
+}
+
+.qr-toggle-btn.active svg {
+  transform: rotate(180deg);
+}
+
+.qr-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.qr-content.show {
+  max-height: 320px;
+}
+
+.qr-inner {
+  padding: 0 24px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.qr-box {
+  background: #ffffff;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  display: inline-block;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04);
+}
+
+.qr-box canvas,
+.qr-box img {
+  display: block;
+}
+
+.qr-hint {
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.4;
+  max-width: 240px;
+}
+
+/* ── TOAST ─────────────────────────────────────────────────── */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--text-main);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 10px 20px;
+  border-radius: 50px;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+}
+
+.toast.show {
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ── RESPONSIVE ────────────────────────────────────────────── */
+
+/* Semua HP ≤ 480px: card tetap mengambang */
+@media (max-width: 480px) {
+  body {
+    padding: 16px 12px 28px;
+    align-items: flex-start;
+  }
+
+  .card {
+    border-radius: 16px;
+    max-width: 100%;
+    /* shadow tetap ada */
+    box-shadow:
+      0 4px 6px -1px rgba(0, 0, 0, 0.05),
+      0 10px 24px -6px rgba(76, 175, 80, 0.12);
+  }
+
+  .card-header      { height: 210px; }
+
+  .profile-info {
+    margin-top: 16px;
+    padding: 0 16px;
+  }
+
+  .name             { font-size: 17px; }
+  .bio-text         { font-size: 11px; }
+
+  .quick-actions-grid {
+    padding: 12px 16px 10px;
+    gap: 8px;
+  }
+
+  .qa-box-btn {
+    padding: 12px 4px 10px;
+    font-size: 10.5px;
+    border-radius: 10px;
+    gap: 6px;
+  }
+
+  .qa-box-btn svg   { width: 17px; height: 17px; }
+
+  .contacts-cards-list {
+    padding: 4px 16px 12px;
+    gap: 8px;
+  }
+
+  .ci-card {
+    padding: 10px 12px;
+    border-radius: 12px;
+  }
+
+  .qr-toggle-btn    { padding: 13px 16px; }
+  .qr-inner         { padding: 4px 16px 16px; }
+}
+
+/* HP sangat kecil ≤ 360px */
+@media (max-width: 360px) {
+  body              { padding: 12px 10px 24px; }
+  .card-header      { height: 185px; }
+  .name             { font-size: 16px; }
+  .qa-box-btn       { font-size: 10px; padding: 11px 2px 9px; }
+}
+
+/* Tablet 481px – 768px */
+@media (min-width: 481px) and (max-width: 768px) {
+  body              { padding: 24px 16px; }
+  .card-header      { height: 250px; }
+}
+
+/* Desktop ≥ 769px */
+@media (min-width: 769px) {
+  body              { padding: 40px 16px; }
+}
