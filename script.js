@@ -179,6 +179,25 @@ function toggleQrCode() {
 }
 
 /**
+ * Download vCard ke perangkat.
+ */
+function saveContact() {
+  if (!vcardText) return;
+
+  const blob = new Blob([vcardText], { type: 'text/vcard;charset=utf-8' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = `${contactName.replace(/\s+/g, '_')}.vcf`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+
+  showToast('Kontak berhasil disimpan ✓');
+}
+
+/**
  * Toast notifikasi singkat.
  * @param {string} msg
  */
