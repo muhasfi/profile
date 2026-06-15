@@ -1,62 +1,49 @@
 /* ============================================================
-   script.js – Digital vCard | PT Koki Sehat Sejahtera
+   script.js – Digital vCard (generic, multi-company)
+   Setiap halaman HTML mendefinisikan window.CONTACT_DATA
+   sebelum memuat file ini.
    ============================================================ */
 
 'use strict';
 
-/* ── STATE ─────────────────────────────────────────────────── */
 let vcardText   = '';
 let contactName = '';
 let qrGenerated = false;
 
-/* ── INIT ──────────────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
   const params = new URLSearchParams(window.location.search);
 
-  // Data default jika tidak ada URL parameter
-  const defaults = {
-    name:     'Ahmad Wijaya, S.T., M.M.',
-    title:    'Direktur Utama',
-    phone:    '+62 812-3456-789',
-    email:    'ahmad@kokisehat.co.id',
-    web:      'kokisehat.co.id',
-    whatsapp: '+62 812-3456-789',
-    address:  'Boyolali, Jawa Tengah, Indonesia',
-    photo:    'profile.png',
-  };
+  const defaults = window.CONTACT_DATA || {};
 
   const contact = {
-    name:     params.get('name')     || defaults.name,
-    title:    params.get('title')    || defaults.title,
-    phone:    params.get('phone')    || defaults.phone,
-    email:    params.get('email')    || defaults.email,
-    web:      params.get('web')      || defaults.web,
-    whatsapp: params.get('whatsapp') || params.get('phone') || defaults.whatsapp,
-    address:  params.get('address')  || defaults.address,
-    photo:    params.get('photo')    || defaults.photo,
+    org:      params.get('org')      || defaults.org      || '',
+    name:     params.get('name')     || defaults.name     || '',
+    title:    params.get('title')    || defaults.title    || '',
+    phone:    params.get('phone')    || defaults.phone    || '',
+    email:    params.get('email')    || defaults.email    || '',
+    web:      params.get('web')      || defaults.web      || '',
+    whatsapp: params.get('whatsapp') || params.get('phone') || defaults.whatsapp || defaults.phone || '',
+    address:  params.get('address')  || defaults.address  || '',
+    photo:    params.get('photo')    || defaults.photo    || 'profile.png',
   };
 
-  // Nama bersih tanpa gelar (untuk inisial & nama file)
   contactName = contact.name.split(',')[0].trim();
 
-  _setPageTitle(contact.name);
+  _setPageTitle(contact.name, contact.org);
   _setPhoto(contact.photo, contactName);
-  _setProfileText(contact.name, contact.title);
+  _setProfileText(contact.org, contact.name, contact.title);
   _setActionLinks(contact);
   _setContactCards(contact);
   _buildVCard(contact);
 });
 
-/* ── PRIVATE HELPERS ───────────────────────────────────────── */
-
-function _setPageTitle(name) {
-  document.title = `${name} – PT Koki Sehat Sejahtera`;
+function _setPageTitle(name, org) {
+  document.title = org ? `${name} – ${org}` : name;
 }
 
 function _setPhoto(photoSrc, name) {
   document.getElementById('headerPhoto').src = photoSrc;
 
-  // Inisial untuk avatar fallback (maks 2 huruf)
   const parts    = name.split(' ');
   const initials = parts.length >= 2
     ? (parts[0][0] + parts[1][0]).toUpperCase()
@@ -65,29 +52,39 @@ function _setPhoto(photoSrc, name) {
   document.getElementById('avatarInitials').textContent = initials;
 }
 
-function _setProfileText(name, title) {
+function _setProfileText(org, name, title) {
+  const orgEl = document.getElementById('companyName');
+  if (orgEl) orgEl.textContent = org;
   document.getElementById('profileName').textContent  = name;
   document.getElementById('profileTitle').textContent = title;
 }
 
 function _setActionLinks(contact) {
   const cleanPhone = contact.phone.replace(/[^0-9+]/g, '');
-  const webHref    = contact.web.startsWith('http')
-    ? contact.web : `https://${contact.web}`;
+  const webHref    = contact.web
+    ? (contact.web.startsWith('http') ? contact.web : `https://${contact.web}`)
+    : '#';
 
   document.getElementById('qaPhone').href = `tel:${cleanPhone}`;
   document.getElementById('qaEmail').href = `mailto:${contact.email}`;
-  document.getElementById('qaWeb').href   = webHref;
+  const qaWeb = document.getElementById('qaWeb');
+  if (qaWeb) qaWeb.href = webHref;
 }
 
 function _setContactCards(contact) {
   const cleanPhone    = contact.phone.replace(/[^0-9+]/g, '');
-  const cleanWA       = contact.whatsapp.replace(/[^0-9]/g, '');
-  const googleMapsUrl = `https://maps.google.com/?q=${encodeURIComponent(contact.address)}`;
-  const shortAddr     = contact.address.split(',').slice(0, 2).join(', ');
-  const webHref       = contact.web.startsWith('http')
-    ? contact.web : `https://${contact.web}`;
-  const shortWeb      = contact.web.replace(/^https?:\/\//, '');
+  const cleanWA       = (contact.whatsapp || '').replace(/[^0-9]/g, '');
+  const hasAddress    = !!contact.address;
+  const googleMapsUrl = hasAddress
+    ? `https://maps.google.com/?q=${encodeURIComponent(contact.address)}`
+    : '#';
+  const shortAddr     = hasAddress
+    ? contact.address.split(',').slice(0, 2).join(', ')
+    : '-';
+  const webHref       = contact.web
+    ? (contact.web.startsWith('http') ? contact.web : `https://${contact.web}`)
+    : '#';
+  const shortWeb      = contact.web ? contact.web.replace(/^https?:\/\//, '') : '-';
 
   const phoneLink = document.getElementById('phoneLink');
   if (phoneLink) { phoneLink.href = `tel:${cleanPhone}`; phoneLink.textContent = contact.phone; }
@@ -99,63 +96,64 @@ function _setContactCards(contact) {
   if (webLink) { webLink.href = webHref; webLink.textContent = shortWeb; }
 
   const waLink = document.getElementById('waLink');
-  if (waLink) { waLink.href = `https://wa.me/${cleanWA}`; waLink.textContent = contact.whatsapp; }
+  if (waLink) { waLink.href = `https://wa.me/${cleanWA}`; waLink.textContent = contact.whatsapp || '-'; }
 
   const mapLink = document.getElementById('mapLink');
   if (mapLink) { mapLink.href = googleMapsUrl; mapLink.textContent = shortAddr; }
 
   const mapBtn = document.getElementById('mapBtn');
   if (mapBtn) { mapBtn.href = googleMapsUrl; }
+
+  // Sembunyikan card alamat jika tidak ada data alamat
+  const addrCard = document.getElementById('addressCard');
+  if (addrCard && !hasAddress) addrCard.classList.add('hidden');
 }
 
 function _buildVCard(contact) {
   const cleanPhone = contact.phone.replace(/[^0-9+]/g, '');
-  const webHref    = contact.web.startsWith('http')
-    ? contact.web : `https://${contact.web}`;
+  const webHref    = contact.web
+    ? (contact.web.startsWith('http') ? contact.web : `https://${contact.web}`)
+    : '';
 
-  // N field: lastName;firstName;;;
   const nameParts = contactName.split(' ');
   const lastName  = nameParts.slice(-1)[0];
   const firstName = nameParts.slice(0, -1).join(' ');
 
-  // ADR field: ;;street;city;province;;country
-  const addrParts = contact.address.split(',').map(s => s.trim());
+  const addrParts = (contact.address || '').split(',').map(s => s.trim());
   const street    = addrParts[0] || '';
   const city      = addrParts[1] || '';
   const province  = addrParts[2] || '';
   const country   = addrParts[3] || 'Indonesia';
 
-  vcardText = [
+  const lines = [
     'BEGIN:VCARD',
     'VERSION:3.0',
     `FN:${contact.name}`,
     `N:${lastName};${firstName};;;`,
-    'ORG:PT Koki Sehat Sejahtera',
-    `TITLE:${contact.title}`,
-    `TEL;TYPE=WORK,VOICE:${cleanPhone}`,
-    `TEL;TYPE=CELL,VOICE:${cleanPhone}`,
-    `EMAIL;TYPE=PREF,INTERNET:${contact.email}`,
-    `ADR;TYPE=WORK:;;${street};${city};${province};;${country}`,
-    `URL:${webHref}`,
-    'END:VCARD',
-  ].join('\r\n');
+  ];
+
+  if (contact.org) lines.push(`ORG:${contact.org}`);
+  if (contact.title) lines.push(`TITLE:${contact.title}`);
+
+  lines.push(`TEL;TYPE=WORK,VOICE:${cleanPhone}`);
+  lines.push(`TEL;TYPE=CELL,VOICE:${cleanPhone}`);
+  lines.push(`EMAIL;TYPE=PREF,INTERNET:${contact.email}`);
+
+  if (contact.address) {
+    lines.push(`ADR;TYPE=WORK:;;${street};${city};${province};;${country}`);
+  }
+  if (webHref) lines.push(`URL:${webHref}`);
+
+  lines.push('END:VCARD');
+
+  vcardText = lines.join('\r\n');
 }
 
-/* ── PUBLIC FUNCTIONS ──────────────────────────────────────── */
-
-/**
- * Avatar fallback jika foto gagal dimuat.
- * Dipanggil via onerror pada <img id="headerPhoto">.
- */
 function showAvatarFallback() {
   document.getElementById('headerPhoto').classList.add('hidden');
   document.getElementById('avatarFallback').classList.remove('hidden');
 }
 
-/**
- * Buka / tutup drawer QR Code.
- * QR di-generate hanya sekali (lazy), berisi data vCard.
- */
 function toggleQrCode() {
   const btn    = document.querySelector('.qr-toggle-btn');
   const drawer = document.getElementById('qrDrawer');
@@ -178,9 +176,6 @@ function toggleQrCode() {
   }
 }
 
-/**
- * Download vCard ke perangkat.
- */
 function saveContact() {
   if (!vcardText) return;
 
@@ -197,10 +192,6 @@ function saveContact() {
   showToast('Kontak berhasil disimpan ✓');
 }
 
-/**
- * Toast notifikasi singkat.
- * @param {string} msg
- */
 function showToast(msg) {
   const toast = document.getElementById('toast');
   toast.textContent = msg;
