@@ -447,13 +447,23 @@ body {
   padding: 8px;
   border-radius: 8px;
   border: 1px solid var(--border);
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 156px;
+  height: 156px;
+  box-sizing: border-box;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04);
 }
 
 .qr-box canvas,
-.qr-box img {
+.qr-box img,
+.qr-box svg {
   display: block;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
 }
 
 .qr-hint {
@@ -552,12 +562,8 @@ body {
 
 /* Tablet 481px – 768px */
 @media (min-width: 481px) and (max-width: 768px) {
-  body{ 
-    padding: 24px 16px; 
-  }
-  .card-header{
-     height: 250px; 
-  }
+  body              { padding: 24px 16px; }
+  .card-header      { height: 250px; }
 }
 
 /* Desktop ≥ 769px */

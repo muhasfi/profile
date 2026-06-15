@@ -165,8 +165,8 @@ function toggleQrCode() {
 
   if (!isOpen && !qrGenerated && vcardText) {
     const qrCode = new QRCodeStyling({
-      width:  140,
-      height: 140,
+      width:  250,
+      height: 250,
       data:   vcardText,
       margin: 4,
       qrOptions: {
