@@ -164,14 +164,32 @@ function toggleQrCode() {
   btn.setAttribute('aria-expanded', String(!isOpen));
 
   if (!isOpen && !qrGenerated && vcardText) {
-    new QRCode(document.getElementById('qr'), {
-      text:         vcardText,
-      width:        180,
-      height:       180,
-      colorDark:    '#1d3b86',
-      colorLight:   '#ffffff',
-      correctLevel: QRCode.CorrectLevel.M,
+    const qrCode = new QRCodeStyling({
+      width:  140,
+      height: 140,
+      data:   vcardText,
+      margin: 4,
+      qrOptions: {
+        errorCorrectionLevel: 'M',
+      },
+      dotsOptions: {
+        color: '#1E3A5F',
+        type: 'rounded',
+      },
+      cornersSquareOptions: {
+        color: '#0F172A',
+        type: 'extra-rounded',
+      },
+      cornersDotOptions: {
+        color: '#3B82F6',
+        type: 'dot',
+      },
+      backgroundOptions: {
+        color: '#FFFFFF',
+      },
     });
+
+    qrCode.append(document.getElementById('qr'));
     qrGenerated = true;
   }
 }

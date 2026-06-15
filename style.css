@@ -552,8 +552,12 @@ body {
 
 /* Tablet 481px – 768px */
 @media (min-width: 481px) and (max-width: 768px) {
-  body              { padding: 24px 16px; }
-  .card-header      { height: 250px; }
+  body{ 
+    padding: 24px 16px; 
+  }
+  .card-header{
+     height: 250px; 
+  }
 }
 
 /* Desktop ≥ 769px */
