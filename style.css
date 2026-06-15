@@ -272,7 +272,7 @@ body {
 .ci-ico svg {
   width: 15px;
   height: 15px;
-  stroke: var(--primary);
+  stroke: var(--text-main);
   fill: none;
   stroke-width: 2;
 }
@@ -444,6 +444,7 @@ body {
 
 .qr-box {
   background: #ffffff;
+  margin-top: 20px;
   padding: 8px;
   border-radius: 8px;
   border: 1px solid var(--border);

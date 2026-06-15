@@ -16,15 +16,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const defaults = window.CONTACT_DATA || {};
 
   const contact = {
-    org:      params.get('org')      || defaults.org      || '',
-    name:     params.get('name')     || defaults.name     || '',
-    title:    params.get('title')    || defaults.title    || '',
-    phone:    params.get('phone')    || defaults.phone    || '',
-    email:    params.get('email')    || defaults.email    || '',
-    web:      params.get('web')      || defaults.web      || '',
+    org:      params.get('org')      || defaults.org        || '',
+    name:     params.get('name')     || defaults.name       || '',
+    title:    params.get('title')    || defaults.title      || '',
+    phone:    params.get('phone')    || defaults.phone      || '',
+    email:    params.get('email')    || defaults.email      || '',
+    web:      params.get('web')      || defaults.web        || '',
     whatsapp: params.get('whatsapp') || params.get('phone') || defaults.whatsapp || defaults.phone || '',
-    address:  params.get('address')  || defaults.address  || '',
-    photo:    params.get('photo')    || defaults.photo    || 'profile.png',
+    address:  params.get('address')  || defaults.address    || '',
+    photo:    params.get('photo')    || defaults.photo      || 'profile.png',
   };
 
   contactName = contact.name.split(',')[0].trim();
