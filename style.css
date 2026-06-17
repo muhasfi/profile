@@ -98,21 +98,32 @@ body {
 /* ── CARD HEADER ───────────────────────────────────────────── */
 .card-header {
   position: relative;
-  height: 260px;
-  overflow: hidden;
+  height: 180px;
+  overflow: visible;
   border-bottom: 5px solid #F8A31B;
-  border-bottom-left-radius: 50% 12%;
-  border-bottom-right-radius: 50% 12%;
+  border-bottom-left-radius: 50% 20%;
+  border-bottom-right-radius: 50% 20%;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
   background: var(--primary-light);
+  clip-path: none;
 }
 
 .header-photo {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  object-fit: contain;
+  object-position: center center;
+  background: #ffffff;
+  padding: 10px;
   display: block;
+  border: 4px solid #ffffff;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  z-index: 2;
 }
 
 .avatar-fallback {
@@ -120,8 +131,8 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 90px;
-  height: 90px;
+  width: 110px;
+  height: 110px;
   border-radius: 50%;
   background: #4CAF50;
   display: flex;
@@ -129,10 +140,11 @@ body {
   justify-content: center;
   color: #ffffff;
   font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 32px;
+  font-size: 36px;
   font-weight: 700;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  z-index: 1;
+  border: 4px solid #ffffff;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  z-index: 2;
 }
 
 /* ── PROFILE INFO ──────────────────────────────────────────── */
@@ -213,6 +225,10 @@ body {
   font-weight: 600;
   box-shadow: 0 4px 10px rgba(76, 175, 80, 0.15);
   transition: var(--transition);
+}
+
+.qa-box-btn:focus {
+  outline: none;
 }
 
 .qa-box-btn:hover {
@@ -509,13 +525,19 @@ body {
   .card {
     border-radius: 16px;
     max-width: 100%;
-    /* shadow tetap ada */
     box-shadow:
       0 4px 6px -1px rgba(0, 0, 0, 0.05),
       0 10px 24px -6px rgba(76, 175, 80, 0.12);
   }
 
-  .card-header      { height: 210px; }
+  .card-header      { height: 150px; }
+
+  .header-photo,
+  .avatar-fallback {
+    width: 94px;
+    height: 94px;
+    font-size: 30px;
+  }
 
   .profile-info {
     margin-top: 16px;
@@ -556,7 +578,10 @@ body {
 /* HP sangat kecil ≤ 360px */
 @media (max-width: 360px) {
   body              { padding: 12px 10px 24px; }
-  .card-header      { height: 185px; }
+  .card-header      { height: 130px; }
+  .header-photo,
+  .avatar-fallback  { width: 82px; height: 82px; font-size: 26px; }
+  .profile-info     { margin-top: 16px; }
   .name             { font-size: 16px; }
   .qa-box-btn       { font-size: 10px; padding: 11px 2px 9px; }
 }
