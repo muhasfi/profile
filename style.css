@@ -159,7 +159,7 @@ body {
   font-weight: 700;
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  color: #1d3b86;
+  color: #000000;
   margin-bottom: 6px;
   display: flex;
   align-items: center;
@@ -173,7 +173,7 @@ body {
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: #1d3b86;
+  background: #000000;
 }
 
 .name {
