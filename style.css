@@ -113,15 +113,15 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 130px;
-  height: 130px;
-  border-radius: 50%;
+  width: 160px;
+  height: 160px;
+  border-radius: 100%;
   object-fit: contain;
   object-position: center center;
   background: #ffffff;
   padding: 2px;
   display: block;
-  border: 3px solid #ffffff;
+  border: 2px solid #ffffff;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
   z-index: 2;
 }
