@@ -167,14 +167,14 @@ body {
   gap: 4px;
 }
 
-.company::before {
+/* .company::before {
   content: '';
   display: inline-block;
   width: 5px;
   height: 5px;
   border-radius: 50%;
   background: #000000;
-}
+} */
 
 .name {
   font-family: 'Plus Jakarta Sans', sans-serif;
